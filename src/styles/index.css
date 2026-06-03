@@ -9,3 +9,21 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+body {
+    background-color: #f8f9fa;
+}
+
+.todos-header {
+    font-size: 4.5rem;
+    font-weight: 200;
+    color: #d8b4c8;
+    letter-spacing: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.todo-card {
+    max-width: 480px;
+    margin: 40px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
