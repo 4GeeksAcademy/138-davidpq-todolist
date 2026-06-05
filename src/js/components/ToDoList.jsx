@@ -4,17 +4,19 @@ import { useEffect, useState } from "react"
 export default function ToDoList() {
     let miStorage = []
     if (localStorage.getItem("list") != null) {
-        miStorage = localStorage.getItem("list").split(",");
-    } else {
-        localStorage.setItem("list", []);
+        if (localStorage.getItem("list").length !== 0) {
+            miStorage = localStorage.getItem("list").split(",");
+        }
     }
 
     const [list, setList] = useState(miStorage)
     const [value, setValue] = useState("")
+    const [showItem, setShowItem] = useState()
     function handleSubmit(e) {
         e.preventDefault()
         if (value.length !== 0) {
             setList([...list, value]);
+            setValue("")
         }
     }
     function handleDelete(index) {
@@ -38,7 +40,8 @@ export default function ToDoList() {
                         <input type="text"
                             className="form-control form-control-lg border-0 shadow-sm py-3"
                             placeholder="What needs to be done?"
-                            onChange={(e) => { setValue(e.target.value) }} />
+                            onChange={(e) => { setValue(e.target.value) }} 
+                            value={value} />
                     </form>
                 </div>
 
@@ -51,10 +54,10 @@ export default function ToDoList() {
                                 list.map((element, index) => {
                                     return (
                                         <li key={index} className="list-group-item py-3 px-4 d-flex justify-content-between"
-                                            onMouseEnter={(e) => { e.target.firstElementChild.classList.remove("d-none") }}
-                                            onMouseLeave={(e) => { e.target.firstElementChild.classList.add("d-none") }}>
+                                            onMouseEnter={() => { setShowItem(index) }}
+                                            onMouseLeave={() => { setShowItem(null) }}>
                                             {element}
-                                            <X size={16} color="#C68C8F" className="d-none" onClick={() => { handleDelete(index) }} />
+                                            <X size={16} color="#C68C8F" className={showItem !== index ? "d-none" : null} onClick={() => { handleDelete(index) }} />
                                         </li>)
                                 }))
                             :
