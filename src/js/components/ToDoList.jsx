@@ -1,17 +1,13 @@
 import { X } from "lucide-react";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function ToDoList() {
     let miStorage = []
-    console.log(localStorage.getItem("list"));
-
     if (localStorage.getItem("list") != null) {
         miStorage = localStorage.getItem("list").split(",");
     } else {
         localStorage.setItem("list", []);
     }
-    console.log(miStorage);
-
 
     const [list, setList] = useState(miStorage)
     const [value, setValue] = useState("")
@@ -19,15 +15,16 @@ export default function ToDoList() {
         e.preventDefault()
         if (value.length !== 0) {
             setList([...list, value]);
-            localStorage.setItem("list", [...list, value]);
         }
     }
     function handleDelete(index) {
         const result = list.filter((element, indexfilt) => indexfilt !== index);
         setList(result);
-        localStorage.setItem("list", result);
-
     }
+    useEffect(()=>{
+        localStorage.setItem("list", list);
+        // console.log(localStorage.getItem("list"));
+    },[list])
     return (
         <div className="todo-card card border-0">
             <div className="card-body p-0">
